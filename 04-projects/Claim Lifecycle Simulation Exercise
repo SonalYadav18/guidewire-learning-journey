@@ -1,0 +1,139 @@
+## Exercise:
+	•	Create a claim, make it payable and close it by following all below 8 stages
+	•	Create a claim – Complete FNOL activity
+	•	Setup claim - Complete post FNOL activities
+	•	Create exposures
+	•	Create reserves  
+	•	Complete activities
+	•	Make claim as payable 
+	•	Issue Checks
+	•	Close the claim
+Add new input fields on loss details page
+Add below input fields on loss details page:
+	•	First Name
+	•	Last Name
+	•	SSN Number
+	•	Date of Birth
+
+
+### This exercise simulates the end-to-end claim lifecycle in Guidewire ClaimCenter.
+
+✅ Part 1: Claim Lifecycle – Manual Walkthrough
+
+Simulate and describe the following 8 stages:
+
+1. Create a Claim – Complete FNOL Activity
+
+Actor: Customer Service Representative (CSR)
+
+Goal: Capture initial claim details (date of loss, type of incident, insured info)
+
+PCF Screen: FNOL wizard
+
+Data Entity: Claim, LossDetails, Claimant
+
+2. Setup Claim – Post-FNOL Activities
+
+System: Auto-triggers segmentation based on claim complexity
+
+Output: Workplan generated
+
+Adjuster: Updates or verifies FNOL details
+
+Data Updated: Contact info, loss description, policy linkage
+
+3. Create Exposures
+
+Definition: Each exposure represents a potential liability/payment
+
+Linked To: One claimant and one coverage
+
+Created By: Automatically (based on rules) or manually by adjuster
+
+Examples: Bodily injury, property damage, towing, etc.
+
+4. Create Reserves
+
+Definition: Amount set aside for potential claim payout
+
+Type: Claim cost reserve or expense reserve
+
+Created: Automatically via business rules or manually by adjuster
+
+5. Complete Activities
+
+Definition: Tasks created for adjusters to follow up
+
+Can Be: Auto-created or manually assigned
+
+Examples: Call insured, document upload, schedule inspection
+
+6. Make Claim Payable
+
+System State: All required data validated
+
+Action: Mark claim as ready for payment
+
+Trigger: Payment approval process begins
+
+7. Issue Checks
+
+Actor: Adjuster
+
+Action: Payment issued to claimant, vendor, or third-party
+
+Modes: One-time check or scheduled payment
+
+8. Close the Claim
+
+Requirements:
+
+All exposures must be closed
+
+All activities must be completed
+
+No open services
+
+Fault rating (if required) must be determined
+
+🎨 Part 2: UI Customization – Add Fields to Loss Details
+
+Simulate adding these fields on the lossdetails.pcf screen:
+
+Fields to Add:
+
+First Name
+
+Last Name
+
+SSN Number
+
+Date of Birth
+
+📄 Simulated PCF Snippet:
+
+<PanelSet id="LossDetailsInputSet">
+    <TextInput label="First Name" name="Loss_FirstName"/>
+    <TextInput label="Last Name" name="Loss_LastName"/>
+    <TextInput label="SSN Number" name="Loss_SSN"/>
+    <DateInput label="Date of Birth" name="Loss_DOB"/>
+</PanelSet>
+
+Explanation:
+
+These fields would be added to the LossDetails screen used during FNOL.
+
+ may also need to add matching fields to the data model (Claim entity).
+
+🧠 Summary
+
+This exercise helps practice:
+
+Understanding claim lifecycle stages
+
+Documenting behavior without system access
+
+Simulating Guidewire UI and data structure logic
+
+
+
