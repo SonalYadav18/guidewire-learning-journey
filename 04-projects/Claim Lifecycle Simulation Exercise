@@ -135,5 +135,10 @@ Documenting behavior without system access
 
 Simulating Guidewire UI and data structure logic
 
+## 🖼 Mock FNOL Screen (Simulated)
+
+This mock screen shows a simulated FNOL page with custom fields: First Name, Last Name, SSN, and Date of Birth.
+
+![FNOL Screen](../assets/images/fnol-screen.png)
 
 
