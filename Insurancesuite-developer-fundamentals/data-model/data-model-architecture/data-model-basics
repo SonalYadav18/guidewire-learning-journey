@@ -1,0 +1,11 @@
+## What is the data model?
+A set of XML formatted metadata definitions of entities and typelists, it is the core dta structure of all the guidewire applications, loaded on startup.
+The metadata instantiates a collection of tables in the application db.
+injects generted java and gosu classes in the application server for programmatic interfaces to entities and typelist.
+
+Entities represent business objects , such as Person, Policy, Account, Invoice and Claim.It serves as the root objects for any UI, Gosu Rules and other data related item.An entity defines a set of fields that store information.
+
+data column types : varchar, integer, datetime, bit
+relationship col type : foreign keys, arrays, type keys.
+
+

@@ -1,0 +1,136 @@
+## Foreign key 
+stores unidirectional reference to a related object in a data model.
+
+## Array
+A collection of pointers to instances of some other entity that is maintained by code during runtime.
+
+## One-to-one relationships
+often split logical entity across multiple physical entities.
+
+## Many-to-many relationships
+requires an entity of type versionable that represents the many-to-many relationships with the following:
+-two or more non-nullable foreign keys
+-unique index for all foreign keys
+
+to access the many-to-many relationships , add an array to one or both entities in the relationship.
+
+## Circular relationships
+<edgeForeignKey> cretes an edge table
+links one entity to another or to self
+ensures the safe ordering of data insertiona and deletion
+
+
+### Explanation in detail
+This document explains how entities are linked together in Guidewire applications using various relationship types: foreign keys, arrays, one-to-one, many-to-many, and circular (edge) relationships.
+
+1️⃣ Foreign Key
+
+📘 Definition
+
+A foreign key stores a unidirectional reference to a related entity.
+
+✅ Example
+
+<foreignkey name="Policy" entity="Policy"/>
+
+Each Claim refers to exactly one Policy. Navigation is from Claim → Policy only.
+
+📌 Use When
+
+Many-to-one relationships
+
+Linking to parent entities (e.g., Claim → User, Claim → Claimant)
+
+📚 Array
+
+📘 Definition
+
+An Array is a one-to-many relationship managed by the Guidewire runtime.
+
+✅ Example
+
+<array name="Exposures" elementType="Exposure"/>
+
+A Claim can have multiple Exposures.
+
+📌 Use When
+
+Representing collections (e.g., exposures, coverages, contacts)
+
+1️⃣:1️⃣ One-to-One Relationships
+
+📘 Definition
+
+Used to split one logical entity into multiple physical entities.
+✅ Example
+
+<foreignkey name="VehicleInfo" entity="VehicleInfo"/>
+
+Often both sides share the same ID to simulate a single object.
+
+📌 Use When
+
+Reducing table size
+
+Reusing shared sub-entities like Name, Address, etc.
+
+🔁 Many-to-Many Relationships
+
+📘 Definition
+
+Requires an intermediate join entity with at least two foreign keys.
+
+✅ Example
+<entity name="UserGroup" ...>
+    <foreignkey name="User" entity="User" required="true"/>
+    <foreignkey name="Group" entity="Group" required="true"/>
+</entity>
+
+Define arrays on both sides if needed:
+
+<array name="Groups" elementType="UserGroup"/>
+
+⚠️ Must Have:
+
+Versionable join entity
+
+Unique index over foreign keys
+
+📌 Use When
+
+Both entities need to associate with many of each other
+
+
+🔄 Circular Relationships (Edge Foreign Keys)
+
+📘 Definition
+
+Used when an entity needs to reference itself or link to another in a graph-like structure.
+
+✅ Example
+
+<edgeForeignKey name="NextActivity" entity="Activity"/>
+
+This allows Activity to reference another Activity.
+
+🔧 Edge Table
+
+Maintains ordering and integrity of inserts/deletes
+
+Used in workflows, activity chains, or tree structures
+
+📌 Use When
+
+Self-referencing structures
+
+Approval chains or activity dependency graphs
+
+
+
+| Type            | Definition                | Example               | Use For               |
+| --------------- | ------------------------- | --------------------- | --------------------- |
+| Foreign Key     | One-to-one or many-to-one | `Claim → Policy`      | Single reference      |
+| Array           | One-to-many collection    | `Claim → Exposures[]` | Multiple items        |
+| One-to-One      | Shared key, split entity  | `Claim → VehicleInfo` | Optimizing structure  |
+| Many-to-Many    | Requires join entity      | `User ↔ Group`        | Complex relationships |
+| Circular / Edge | Self-referencing entity   | `Activity → Activity` | Graphs, workflows     |
