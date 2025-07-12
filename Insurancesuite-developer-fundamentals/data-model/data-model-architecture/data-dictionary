@@ -1,0 +1,135 @@
+## Data Dictionary
+Documents the entities and typelists in the guidewire application :
+base application and customer extensions.
+Three main sections:Entities, Typleists, All fields
+
+3 different views : Data Entities(Standard), Data Entities(Migrtion view) and Data Entities(database view).
+
+Regenrate the Data Dictionary - whenver we make any updates to the data model
+Open command window at application root directory -(command)-> gwb genDataDictionary
+data dictionary is not pregenerated- we extend the data model to validate our changes ,to refresh the static html pages.
+
+view the results:
+o/p is stored in the build directory,located under application root folder, includes both the data and security dictionaries,
+double click the file .html to open.
+
+using teh data dictionary:
+the entities section lists each entity with details
+.foreign key references
+.fields
+.Arrays
+.Unique Keys
+
+Entity Header:
+Entity name and name of databse table
+Delegate Entities - defines fields and behaviours needed by multiple entities
+description of entity
+entity attributes
+other entities with foreign key and array references to this entity
+
+Subtypes list
+Every subtyped entity has a subtyped typelist
+Identifies all child subtypes
+include link to each subtype
+subtypes are on the same page
+inherit attributes of their supertype
+
+Fields list
+showws information on :columns, foreign keys, type keys, virtual properties
+base application fields
+extensions to entity
+Expndable list of user interface (UI) fields.
+
+
+
+### Explanation
+📘 What is the Data Dictionary?
+
+The Data Dictionary is like a web-based cheat sheet that shows everything about:
+
+🧱 Entities (like Claim, Policy, Contact)
+🧾 Typelists (like LossCause, ClaimStatus)
+🧩 Fields, Foreign Keys, Arrays, Subtypes
+You use it to understand your data model — how tables link to each other, what fields they have, and what dropdowns exist.
+
+📂 What’s in the Data Dictionary?
+
+🔹 1. Entities Section
+Lists all data tables (entities) in your application.
+For each entity, you’ll see:
+
+Name (e.g., Claim)
+The actual database table name
+All fields in it (columns, dropdowns, FKs)
+Arrays (like Claim → Exposures)
+Unique keys (like claim numbers)
+Foreign key references (which other tables it connects to)
+🔹 2. Typelists Section
+Lists all dropdown lists used in the UI.
+
+Examples: LossCause, VehicleType, ClaimStatus
+You’ll see all valid values like: FIRE, THEFT, etc.
+🔹 3. All Fields Section
+Gives you a flat list of every field in the system across all entities.
+
+👁 Views in the Data Dictionary
+
+You can look at your data model in 3 ways:
+
+View	What it shows
+Data Entities (Standard)	Default view — what you're most likely to use
+Data Entities (Migration View)	Helpful for data import/export
+Data Entities (Database View)	Shows actual table/column structure in the database
+⚙️ How to Generate the Data Dictionary
+
+Whenever you change your data model (add a field, create an entity, etc.), you must regenerate the dictionary.
+
+✅ Steps to Regenerate:
+Go to your application root folder in terminal
+Run this command:
+gwb genDataDictionary
+📌 This will:
+
+Validate your changes
+Generate updated HTML files
+📁 Where Is It Stored?
+
+Once generated, it’s saved in:
+
+/build/dictionary/
+Look for:
+
+DataDictionary.html – main file for entity/typelist info
+SecurityDictionary.html – permissions, roles, etc.
+Open the .html file by double-clicking — it opens in your browser.
+
+🧠 Key Concepts
+
+🔸 Entity Header
+Each entity section starts with:
+
+Entity name
+DB table name
+Description
+Delegate Entities (reusable logic shared by many entities)
+References from other entities
+🔸 Subtypes
+If an entity has child types, they’ll be listed here.
+Example:
+
+Contact → Person, Company
+Subtypes inherit fields from the parent
+🔸 Fields Section
+Gives info on each field:
+
+Column name
+Data type
+Is it a dropdown (typelist)?
+Is it a virtual field (only used in UI)?
+Is it a foreign key?
+Which file it comes from (base or extension)?
+📌 Why It’s Useful for You
+
+🧭 Need to find which entity has LicensePlate? Use the dictionary.
+🧩 Want to see all dropdowns for ClaimStatus? Go to Typelists.
+🛠 Adding a new field and want to check if it worked? Use the regenerated dictionary.

@@ -1,0 +1,127 @@
+## Entities in data model
+An entity is a business object used by an application
+Entities are defined in ETI files.
+
+## Base application entities
+Application entities are specific to application
+Platform entities are common to all Guidewire applications
+
+Entities with the final equals true attribute defined in the etity element cannot be subtyped.
+Entities with the extendable equals false attribute defined in the entity element cannot be extended in the sense that new elements cannot be added to the entity.
+
+## Custom Entities
+An entity created by the customer, theye are eti files, alwys name the entity suffix _Ext
+
+## Entity Extension
+use to - add fields, override certain attributes of existing fields safely, are defined in ETX files, may have only one ETX file,fields added to an entity extension should end with _Ext.
+
+## Extending entities
+The ETX file is created at the application level
+
+## Internal Entity Extension
+An internal entity extension is created by guidewire to add application specific functionality to a platform level entity .
+An EIX file is local in the application and read only.
+
+## Typelist
+Typelist file names are defined as 
+.TTI - Typelist Type Info -a single guidewire or custom typelist declaration
+.TIX - Typelist Internal Extension - a single guidewire typelist extension 
+.TTX - Typelist Type Extension - a single guidewire or custom typelist extension
+Base application typelist are read only
+allows customer to safely add new typecodes to base application typelist
+te typelist extension is defined in a TTX file
+A base application Typelist can hve utmost one  TTX file
+For Typecodes that are added to a base app typelist , guidewire recommends the code should end with _Ext.
+
+## Typelist in the data model
+\Metadata\Typelist folder read only and contains platform and base application Typelists
+\Extension \Typelist folder contains everything customer specific.
+ValidationLevel is Extendble
+ActivityStatus is internal
+BuildingCode_Ext is custom
+Virtual typelist does not exists as .tti files in studio
+java code is generated
+a table is populated on the db
+virtul typleist behave like other typelist
+
+
+## Explanation:
+🧱 What Are Entities in Guidewire?
+
+Think of Entities like data tables (like Excel sheets).
+Each entity stores information.
+For example:
+
+A Claim entity stores claim details
+A Policy entity stores policy details
+A User entity stores people like adjusters or CSRs
+Guidewire uses these entities to model the real-world data in an insurance system.
+
+📁 Where Entities Are Defined
+
+Entities are stored in files with these extensions:
+
+File	What it means
+.eti	The main file that defines an entity
+.etx	A file used to add extra fields to an existing entity
+.eix	A file Guidewire itself uses to add stuff — you can't change this
+
+✅ Simple Example
+
+Let’s say you want to store a person’s name and phone number.
+
+You create an entity called Customer_Ext:
+
+<entity name="Customer_Ext">
+    <column name="Name" type="Varchar"/>
+    <column name="Phone" type="Varchar"/>
+</entity>
+This is stored in a .eti file — your custom entity.
+
+✏️ What if You Want to Add a Field to an Existing Entity?
+
+Guidewire already has a Claim entity.
+
+Now you want to add one new field — "Third Party Involved?"
+
+You use an .etx file like this:
+
+<extension entity="Claim">
+    <column name="IsThirdParty_Ext" type="Boolean"/>
+</extension>
+This is a safe way to add new fields to Guidewire's built-in entities.
+
+🎨 What Are Typelists?
+
+Typelists are like dropdown lists.
+
+For example:
+LossCause dropdown might include:
+FIRE
+THEFT
+ACCIDENT
+These are stored in .tti or .ttx files.
+
+.tti → Guidewire’s original dropdown list
+.ttx → Your own added dropdown options (custom ones)
+So you might add:
+
+<typecode code="FLOOD_Ext"/>
+
+
+🔑 Key Rules (Super Simple)
+| You want to...           | Use this | End it with `_Ext`? |
+| ------------------------ | -------- | ------------------- |
+| Create a new table       | `.eti`   | ✅ Yes               |
+| Add a new field          | `.etx`   | ✅ Yes               |
+| Add a new dropdown value | `.ttx`   | ✅ Yes               |
+
+
+🎁 Summary in Plain English
+
+Entities are like tables that store data.
+Use .eti to create, .etx to extend.
+Always end custom names with _Ext.
+Typelists are for dropdown options like reasons or statuses.
+
+
