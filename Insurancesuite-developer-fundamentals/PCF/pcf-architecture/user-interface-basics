@@ -1,0 +1,268 @@
+## Guidewire application User Interface Framework
+User Interfaces are built using Page Configuration Format (PCF) framework
+is an XSD-validated XML Doc - named with te file extension .pcf
+contains a set of XML elements called PCF elements - that defines structure, Layout and Behaviour
+defined within the root tag <PCF> tag
+
+## PCF Elements
+Follow a hierarchical container based user interface model
+Split between :
+Widget- displayable elements that are rendered into HTML - there re some widgets that re not visible directly but are used to group other widgets in a specific layout format , can specify permissions to view or edit data for the logged in user.
+Location- Navigable places in the user inteface.A location uslly specifies which part of the browser window will be updated if the application/user navigates to the location, wht are the permissions that the logged in user needs to view/edit the data in that location.
+
+### Explanation
+🧩 What Are PCF Elements?
+
+PCF stands for Page Configuration File. It’s an XML file that defines a UI screen or component in Guidewire (like pages, popups, buttons, input fields, etc.).
+
+Each PCF file is made up of smaller elements, which are like building blocks of a screen.
+
+🧱 1. Main PCF Element Types
+
+Element	Purpose
+Page	Represents a full page or screen
+PanelRef	A reusable section (panel) used inside pages
+Input	A field for entering text, numbers, dates, etc.
+Select	A dropdown list (for typelist fields)
+Iterator	Repeats a row for each item in a list (e.g. a table)
+Toolbar	Holds buttons like “Add”, “Edit”, “Remove”
+Button	A clickable action (Submit, Cancel, etc.)
+ListView	Displays rows of data like a table
+Menu / MenuItem	Contextual or navigation menus
+Text	Static label or text content
+Action	Defines a logic/action like click, popup, navigation
+🔍 2. Field Elements
+
+Element	Purpose	Example
+TextInput	Accepts plain text	Name, City
+DateInput	For date fields	Date of Birth
+Checkbox	Boolean values	Is Active
+Select	Dropdown list (typelist/typekey)	State, Gender
+Textarea	Multiline text	Comments, Description
+These map to data fields in the entity (e.g., Claim.Description, Policy.PolicyNumber).
+
+🔁 3. Repeating Elements
+
+Iterator: Used for repeating UI elements like lists
+Example: List of claims, list of documents
+ListView: Shows a table-style structure with columns
+Example:
+
+<Iterator id="ClaimDocuments" source="claim.Documents">
+  <TextInput value="Document.Name"/>
+  <TextInput value="Document.Type"/>
+</Iterator>
+🧭 4. Action Elements
+
+Button: Calls an Action
+Action: Can perform navigation, popup, workflow logic
+Example:
+
+<Button id="SubmitClaim" label="Submit">
+  <Action type="navigate" destination="ClaimConfirmationPage"/>
+</Button>
+🔧 5. Common Attributes in PCF Elements
+
+Attribute	Purpose
+id	Unique name within the PCF file
+value	Binds the UI element to a data field
+label	What is shown to the user
+type	Type of action or control
+source	Used in iterators/lists to bind to a list of data
+📘 Example: Simple Claim Page
+
+<Page id="ClaimPage">
+  <TextInput id="ClaimNumber" label="Claim #" value="Claim.ClaimNumber"/>
+  <DateInput id="LossDate" label="Date of Loss" value="Claim.LossDate"/>
+  <Checkbox id="IsCatastrophe" label="Catastrophe?" value="Claim.IsCatastrophe"/>
+  <Button id="Submit" label="Submit">
+    <Action type="navigate" destination="SummaryPage"/>
+  </Button>
+</Page>
+🧠 Summary
+
+PCF Element	Think of it as...
+Page	A whole screen
+Input, Select, Checkbox	Form fields
+Iterator, ListView	Tables or repeated rows
+Button, Action	Behavior and logic
+Menu	Navigation or context actions
+
+🧩 1. What Are Widgets in Guidewire?
+
+In Guidewire, widgets are visual UI components inside a PCF (Page Configuration File) that the user interacts with. Think of them as form controls or building blocks of the screen.
+| Widget Type        | Description                            |
+| ------------------ | -------------------------------------- |
+| `TextInput`        | A single-line text input field         |
+| `DateInput`        | Calendar date selector                 |
+| `Checkbox`         | A true/false toggle                    |
+| `Select`           | Dropdown menu (for typelists/typekeys) |
+| `Textarea`         | Multiline text box                     |
+| `ListView`         | Table with rows and columns            |
+| `Button`           | Clickable action element               |
+| `Menu`, `MenuItem` | Navigation or contextual choices       |
+
+📌 Widgets are declared in PCF XML files and bound to data model fields using the value attribute.
+
+🧠 Why Use Widgets?
+They give users a way to input and view data
+They are bound to fields in the entity (e.g., Claim.ClaimNumber)
+They are rendered automatically with validation, layout, and styling by the Guidewire platform
+
+
+🎨 UI Layout Context – Location in PCF
+In PCF and widget layout, "location" can refer to:
+
+Where the widget appears in the UI (e.g., top, center, sidebar)
+Defined inside a PageLayout, DetailView, or PanelRef
+<Location id="LeftPanel">
+  <TextInput value="Claim.PolicyNumber"/>
+</Location>
+
+## Atomic Widget
+Smallest building block of the UI - input, cell, button
+displays individual data values
+executes individual action
+
+### Explanation
+🧩 What is an Atomic Widget in Guidewire?
+
+An atomic widget is the smallest, indivisible UI control in Guidewire’s PCF (Page Configuration File) framework.
+
+You can think of atomic widgets as the basic building blocks of the user interface.
+
+🔹 Examples of Atomic Widgets
+Widget	Purpose
+TextInput	Single-line text entry
+DateInput	Date selection (calendar)
+Checkbox	True/false (boolean) input
+Textarea	Multiline text box
+Select	Dropdown (for typelist fields)
+RadioButton	One of several choices
+These widgets are directly bound to entity fields like Claim.Description, Policy.PolicyNumber, etc.
+
+🧠 Why Called “Atomic”?
+
+Atomic = indivisible → These widgets cannot be broken down into smaller UI pieces.
+They are not composed of other widgets like a ListView or Iterator (which contain other elements).
+Just like atoms are the smallest unit in chemistry, atomic widgets are the smallest UI units in Guidewire.
+🔁 Non-atomic Widgets (for comparison)
+Widget	What it does
+ListView	Displays a list or table of data
+Iterator	Repeats a section for each data item
+DetailView	Combines multiple fields into a panel
+Menu, PanelRef	Group or compose other widgets
+These contain atomic widgets inside them.
+
+✅ Summary
+
+Term	Meaning
+Atomic Widget	A single, simple UI control directly bound to a data field
+Examples	TextInput, Select, Checkbox, DateInput, Textarea
+Not Atomic	ListView, Iterator, DetailView – because they are containers
+
+## Container Widgets
+collection of atomic widgets or other continer widgets
+orgbizes data and functionality into logical groups
+eg- screen, list detail panel, card, detail view, list view, input set.
+
+### Explanation
+🧳 What is a Container Widget?
+
+A Container Widget is a UI element that holds (contains) other widgets — either atomic or other containers.
+
+Think of it like a box that groups other UI components together. It controls:
+
+Layout
+Visibility
+Grouping logic
+🧱 Examples of Container Widgets
+
+Widget	Purpose
+DetailView	Groups multiple fields into a structured panel
+ListView	Displays tabular data (rows + columns)
+Iterator	Repeats a structure for every item in a list
+PanelRef	Reuses a group of widgets (like a shared panel)
+Toolbar	Groups buttons like Add, Edit, Remove
+Menu	Groups MenuItem elements
+📦 Example: DetailView as a Container
+
+<DetailView id="PolicyDetailDV">
+  <TextInput id="PolicyNumber" value="Policy.PolicyNumber"/>
+  <DateInput id="EffectiveDate" value="Policy.EffectiveDate"/>
+</DetailView>
+Here, DetailView is a container holding two atomic widgets: TextInput and DateInput.
+
+🔄 Container vs. Atomic Widgets
+
+Feature	Atomic Widget	Container Widget
+Smallest UI Unit	✅ Yes	❌ No (contains other widgets)
+Holds Other Widgets	❌ No	✅ Yes
+Examples	TextInput, Checkbox	DetailView, ListView
+🧠 Why Use Container Widgets?
+
+To organize UI layout logically
+To group related data fields
+
+To apply visibility rules or conditions to an entire section
+ in Guidewire container widgets like DetailView, PanelRef, or ListView can have visibility rules applied to them, which control whether the entire section is shown or hidden based on certain conditions.
+
+Let me explain with a real example:
+
+🧭 Why Apply Visibility Rules to Containers?
+
+You might want to:
+
+Show an entire section only for specific user roles
+Hide a panel if a Boolean field is false
+Show a claims table only if the user has permissions
+🛠️ How It Works
+
+Use the visible attribute in the container widget:
+
+<DetailView id="ClaimDetailsDV" visible="Claim.IsComplexClaim">
+  <TextInput id="ClaimNumber" value="Claim.ClaimNumber"/>
+  <DateInput id="LossDate" value="Claim.LossDate"/>
+</DetailView>
+What this does:
+The entire ClaimDetailsDV section will only appear if Claim.IsComplexClaim == true
+If false, none of the widgets inside are rendered
+🔐 Another example: Role-based visibility
+<PanelRef id="ManagerApprovalPanel" visible="@gw.api.security.PermissionUtil.HasPermission('claimapprove')"/>
+This panel will only be visible to users who have the claimapprove permission.
+
+✅ Where You Can Apply Visibility
+
+Widget	Can Apply visible?	Notes
+DetailView	✅ Yes	Show/hide sections
+PanelRef	✅ Yes	Reusable panels
+ListView	✅ Yes	Show/hide tables
+Button	✅ Yes	Show button based on condition
+Input	✅ Yes	Field-level control
+🧠 Benefits
+
+Cleaner UI: show only what's relevant
+More secure: hide sensitive fields from users without permission
+Less confusion for end users
+
+To reuse UI components (using PanelRef)
+✅ Summary
+
+Concept	Meaning
+Container Widget	A UI element that holds other widgets
+Used for	Grouping, layout, reuse, repeatable UI sections
+Examples	DetailView, ListView, Iterator, Toolbar
+
+
+A primary container is a reusable view that organizes atomic widegts- detail view, list view, input set
+A secondary container organizes primary containers - list detail panel, card
+A top level container organizes primary and secondary containers - screen
+
+## Location
+A pcf element that a user can navigate to
+does not define any visual content
+can use system permissions to control user access
+eg- location group , page, wizard, popup , worksheet, forward, exit point.
+
+
+
