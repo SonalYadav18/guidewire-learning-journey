@@ -1,0 +1,161 @@
+## Subtype entity 
+A subtype entity is a child to a supertype entity and inherits all the fields and methods of the supertype.
+
+## subtypes in database
+Typelist and entity table defines supertype and subtype relationship
+supertype entity tables contains subtype columns in denormalized form 
+irrelevant columm for subtypes are null.
+
+## subtype limitation
+new subtypes inherit from supertype 
+all elements and attribute defaults
+behaviour of its supertype
+only single inheritance
+unable to inherit from multiple supertypes
+
+## subtype entity extensions
+the base app comes with the base product subtype entities
+base app subtype entities can be extended the exact way as top level entities.
+every entity can have at most one ETX file
+ETX file has the same name as te ETI file(no_Ext needed)
+ETX files are ..configurtion/config/extensions/entity folder
+guidewire recommends using_Ext for new fileds added to the ETX file
+
+
+### Explantion
+🧬 Subtypes in Guidewire
+
+This document explains what subtype entities are in Guidewire, how they relate to the database, and how to work with them safely.
+
+📘 What is a Subtype?
+
+A subtype is a child entity that inherits from a supertype entity. Think of it like a subclass in Java:
+
+Inherits fields, methods, and behavior from the supertype
+
+Used to represent different types of the same kind of object with extra customization
+
+🔹 Example:
+
+Supertype: Contact
+
+Subtypes: Person, Company, Vendor
+
+All share common fields from Contact, but Person might have DateOfBirth, while Company has TaxID.
+
+🗃️ Subtypes in the Database
+
+Guidewire uses a single database table for the supertype and its subtypes
+
+This is called denormalized table design
+
+🔸 Table Behavior:
+
+One table → contains all columns for supertype and all subtypes
+
+For each row:
+
+Only the columns relevant to its subtype are filled
+
+Irrelevant columns are null
+
+🔸 Typelist-based Control:
+
+A special typelist (like ContactSubtype) keeps track of which row belongs to which subtype
+
+Field Subtype in the table is used to distinguish entity types
+
+🚫 Limitations of Subtypes
+
+Subtypes can only inherit from one supertype (no multiple inheritance)
+
+They automatically inherit:
+
+Fields
+
+Methods
+
+Attributes (like retireable, versionable)
+
+You can’t override these in the subtype
+
+🧩 Subtype Entity Extensions
+
+You can extend base application subtypes just like any other entity
+
+Add fields by creating an .etx file
+
+⚠️ Important Notes:
+
+The .etx file must have exact same name as the .eti file
+
+Do not add _Ext to the filename
+
+Place the file under: configuration/config/extensions/entity/
+
+But any new field should use _Ext suffix
+
+🧪 Example:
+
+<extension entity="Person">
+  <column name="BloodGroup_Ext" type="Varchar"/>
+</extension>
+
+🔸 What Is a Subtype?
+
+In Guidewire, a subtype is a child entity that inherits from a supertype.
+
+Supertype = base entity (e.g., Contact)
+Subtype = specialized entity (e.g., Person, Company)
+They share the same database table but differ based on a special field.
+
+🔸 Typelist-Based Control
+
+Guidewire uses a special Typelist (like ContactSubtype) to track which subtype a record is.
+
+That means:
+
+There's a field called Subtype in the base table (like Contact)
+That field holds a Typecode from ContactSubtype
+That typecode determines what the row really is (e.g., a Person, a Company, or a Place)
+
+🧠 Example
+
+Typelist: ContactSubtype
+Typecode
+Person
+Company
+Vendor
+Contact Entity (table row):
+ID	Name	Subtype
+1	Sonal Y	Person
+2	Azure Ltd	Company
+Guidewire uses the value in the Subtype column to:
+
+Instantiate the correct subtype in Java/Gosu
+Decide which fields are valid (some fields only apply to Person, others to Company)
+📘 Subtypes in Data Dictionary
+
+In the Data Dictionary (HTML output from gwb genDataDictionary), you’ll see:
+
+The supertype entity (Contact) lists a section called Subtypes
+It shows:
+All valid child entities (e.g., Person, Company)
+Inherited fields from the supertype
+Links to each subtype’s section on the page
+This helps you see which child types share the same base structure.
+
+📌 Summary
+
+Concept	Meaning
+Subtype field	A column in the base table that holds the typecode (e.g., Person)
+Typelist	Defines all valid subtypes (e.g., ContactSubtype)
+Shared table	All subtypes store data in the same table (e.g., Contact)
+Data Dictionary	Lists supertype, subtypes, and inherited fields for documentation and validation
+
+Exercise:
+If we want to create a subtype, we first have to check that the supertype entity Final field value is NOT set to true.
+
+
+
+

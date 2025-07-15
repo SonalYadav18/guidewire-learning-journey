@@ -1,0 +1,43 @@
+## Typelist 
+is displayed as drop-down lists in the user-interface
+represents a pre-defined set of values called typecodes
+
+## Extending typelist
+Base configuration typelist:
+read only
+present in the metadata folder
+Extension typlelist:
+defined in a ttx file
+created in the extensions folder
+can have at most one ttx file
+
+## typelist extension and the database
+.tti and .ttx filed are combined together in db and the .ttx one will have the field with the _ext added in the db.
+
+## Extending a typelist-process
+Extend typelist
+Add typecode to.ttx
+verify changes
+generate changes
+
+
+## Extend the PhoneType typelist
+### Open an existing ttx file in studio , Cntrl+Shift+N to open existing extension
+### create a new ttx file 
+Locate the phonetype.tti under the metadat folder
+right click on the file name
+select new -> typelist extension
+### Add typecode
+in the typelist editor , select typecode
+enter values for code , name and priority attribute
+provide a meaningful description.
+### Verify changes
+before starting the server, open command prompt at the application root directory
+generate the data dictionary
+cehck console for errors
+view changes in the data dictionary.
+### generate changes in data model
+start application server in studio - see column added and the application strted message.
+
+
+

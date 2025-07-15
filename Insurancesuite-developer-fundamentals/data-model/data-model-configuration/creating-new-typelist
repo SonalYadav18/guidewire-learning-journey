@@ -1,0 +1,123 @@
+## Typelist 
+is displayed as drop-down lists in the user-interface
+represents a pre-defined set of values called typecodes
+
+## Typelists and Typekey fields
+A typekey field is an entity field associated with a specific typelist
+referenced typelist contains the list of possible values for the typekey field
+
+## Typelists and Typekey fields in the database
+typelists are stored as db tables
+typecode are stored as rows in the table
+typekeys are stored as foreign key columns in the entity table
+
+## Typelists and Typekeys in the object model
+code generators generate java classes from typelist
+typecodes become static final variable in the class
+
+## Typefilters
+cause the typelist to display only a subset of the typecodes for that typelist
+A typekey field can reference at most one typefilter from the associated typelist
+
+In  a new typelist creation , add _Ext extension in the name of typelist itself, so now the _ext extension is not needed to be added to all the typcode names field.ß
+
+
+## Explanation
+
+Entity (e.g., Claim)
+ └── LossCause (typekey field)
+       └── Typelist: LossCause
+             ├── fire
+             ├── theft
+             └── earthquake
+
+
+📘 What is a Typelist?
+
+A Typelist is like an enum in other languages — a list of allowed values used to populate dropdowns and restrict field values.
+
+📝 Example:
+Typelist: LossCause
+→ Typecodes: fire, earthquake, theft
+
+🎯 What is a Typekey Field?
+
+
+A Typekey field is just a field in your entity (like Policy_Ext) that:
+
+Holds a value from a predefined list (a Typelist)
+That list of values is defined in a .tti or .ttx file (called a Typelist)
+Think of it like a dropdown menu in a form:
+
+The field is the Typekey
+The options in the dropdown come from the Typelist
+
+A Typekey field is a field in an entity that is linked to a typelist.
+
+It can only accept values defined in the referenced typelist
+It is type-safe in Gosu (you can’t assign invalid values)
+🧩 Example in an entity:
+
+<typekey name="LossCause" typelist="LossCause"/>
+In Gosu:
+
+claim.LossCause = LossCause.TC_FIRE
+🧱 How They’re Stored in the Database
+
+Element	Stored As
+Typelist	A table in the database
+Typecodes	Rows in that table
+Typekey field	A foreign key column in entity’s table referencing a typelist
+📌 For example:
+
+Table: typelist_LossCause
+Rows: fire, theft, etc.
+Column in Claim table: LossCause (references typecode)
+
+🧠 What is a Typefilter?
+
+A Typefilter is used to limit the visible or selectable options (typecodes) from a Typelist in a specific context — such as a dropdown on a screen.
+
+Think of it as applying a filter on a typelist to show only certain values.
+
+💡 Why Use a Typefilter?
+
+To avoid showing irrelevant or invalid options to users.
+
+Example:
+You have a VehicleType typelist with:
+
+car
+truck
+motorcycle
+bicycle
+You might create a filter for CommercialVehicles that includes:
+
+truck
+car
+🛠️ How It's Set Up
+
+Define the Typefilter inside the .tti (typelist file):
+<typefilter name="CommercialVehicles">
+  <include code="truck"/>
+  <include code="car"/>
+</typefilter>
+Use the Typefilter in your Typekey field:
+<typekey name="VehicleCategory"
+         typelist="VehicleType"
+         typefilter="CommercialVehicles"/>
+Now, only truck and car will show in the dropdown for VehicleCategory.
+
+🔗 Rules
+
+A Typekey field can reference only one Typefilter
+The Typefilter must be defined in the same Typelist that the Typekey field uses
+📌 Summary
+
+Concept	Description
+Typelist	Full set of valid options
+Typekey	Field that stores one of those options
+Typefilter	Narrows the displayed options for a typekey field
+Limitation	One typekey field → one typefilter
+
+

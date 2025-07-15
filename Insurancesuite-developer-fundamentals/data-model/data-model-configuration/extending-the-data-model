@@ -1,0 +1,141 @@
+The Guidewire platform provides the insurer with the options to enhance base product data entities.
+## Entity extensions and the Database
+## Entity extensions and Java classes
+## Accessing base entities in Studio
+Base application entities are read-only ---> prevents conflicts during application upgardes
+Extensions and base entities are stored separately
+.Extensions folder - entity extensions (.etx)
+.Metadata folder - base entities (.eti) and internal extensions (.eix)
+It is also possible to override some attributes of base entities fields using override types:
+-array override
+-column override
+-foreign key override
+-key filters override
+-one-to-one override
+-type key override
+
+
+Explanation:
+🧱 Entity Extensions & Overrides in Guidewire
+
+This document explains how Guidewire lets insurers extend and override the base data model without breaking system upgrades.
+
+🧩 Why Use Entity Extensions?
+
+Guidewire provides base product entities (like Claim, Policy, etc.)
+
+These base entities are read-only to avoid breaking things during upgrades
+
+Instead of changing them directly, you create extensions to add your own fields safely
+
+🗂 Where Are Things Stored?
+
+Folder
+
+What it contains
+
+metadata/entity/
+
+Base entities (.eti) and internal extensions (.eix) — read-only
+
+extensions/entity/
+
+Your custom entity extensions (.etx) — editable
+
+🔧 What Are Entity Extensions?
+
+Entity extensions:
+
+Are defined in .etx files
+
+Can add new fields (e.g., GSTNumber_Ext, RegionCode_Ext)
+
+Use a naming convention with _Ext to keep it clear
+
+Allow you to override base field behavior using special override types
+
+Example:
+
+<extension entity="Claim">
+  <column name="IsThirdParty_Ext" type="Boolean"/>
+</extension>
+
+🧠 Relationship With the Database
+
+When you regenerate the database (gwb regen-database or similar):
+
+Your extension fields are merged into the database structure
+
+You don't need to touch the base entity files
+
+Guidewire will treat your custom fields as part of the data model.
+
+☕ Relationship With Java Classes
+
+Guidewire Studio compiles your extensions into Java classes.
+
+If you extended the Claim entity, the resulting class will include both:
+
+Base fields from Claim.eti
+
+Custom fields from Claim.etx
+
+You access them like this in Gosu:
+
+var isThirdParty = claim.IsThirdParty_Ext
+
+🎛 Override Types
+
+Sometimes you don’t want to just add a new field — you want to change how a base field works.
+Guidewire allows controlled overrides using these:
+
+Override Type
+
+Purpose
+
+array override
+
+Change how arrays (lists) behave on the entity
+
+column override
+
+Change the data type, label, or other attributes of a field
+
+foreign key override
+
+Redefine how foreign keys behave
+
+key filters override
+
+Modify filters used on unique keys
+
+one-to-one override
+
+Override one-to-one relationships
+
+type key override
+
+Change dropdown behavior (typelist handling)
+
+✅ These are done inside the .etx file — never in .eti
+
+🧪 Example: Column Override
+
+If you want to change the label or size of an existing column:
+
+<columnOverride name="PolicyNumber">
+    <label>New Policy Number</label>
+    <length>60</length>
+</columnOverride>
+
+📌 Summary
+
+Base entities are protected and read-only
+
+Use .etx files to safely extend or override them
+
+Guidewire compiles all your changes into the full data model
+
+These extensions keep your upgrades and customizations safe
+
+

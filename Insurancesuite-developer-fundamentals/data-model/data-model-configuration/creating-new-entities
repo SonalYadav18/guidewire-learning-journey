@@ -1,0 +1,33 @@
+## Entities in db
+data for an entity is stored in a database table nmed to match the entity
+Exceptions:
+entities that share the columns in an entity table such as a subtype entity
+virtual, non persistent entity do not save data to the db.
+
+## Entities in the object model
+Code generators generate java classes from entities
+Entities can also have enhacements with additional functions and properties.
+
+
+Exercise:
+create a new entity called policy_ext, 2 data fields policy number(varchar) and Premium(monetary field-displays both the currency and the type , e.g $200).
+setup 2 relationships, first a policy can have exactly one location associateed with it , it is going to be a foreign key,second an ABContact can hve 0 tp many policies associated witb it , it is a an array relationshiop
+
+### while creation of an entity- Extendable checkbox is for internal usage only and is not relevant for custom entities, it determines whether an etx file can be created for this entity, CUSTOM entities CANNOT be extended.
+
+if the exportable checkbox is checked then the entity supports serialization.
+
+if the final checkbox ix checked , you cannot subtype the entity, it defaults to true.
+
+Tip:
+Use both foreignkey and array if you want two-way navigation:
+
+foreignkey in child → parent
+Step 1: In the child entity (Policy_Ext)
+You add a foreignkey that links to the parent:
+<foreignkey fkentity="ABContact" name="PolicyOwner"/>
+
+array in parent → list of children
+You add an array that collects all linked child records:
+<array name="Policies" arrayentity="Policy_Ext"
+       elementforeignkey="PolicyOwner"/>
