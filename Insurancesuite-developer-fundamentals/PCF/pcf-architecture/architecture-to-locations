@@ -1,0 +1,35 @@
+## Locations
+
+### Page
+Contains a single screen
+Used exclusively within Location Groups
+
+### Location Group
+Collection of pages
+All pages share a commom info bar, actions menu, and sidebar
+provides the structure and navigation for a group of related changes
+
+### Wizard
+ordered collection of screens
+single info bar, actions menu, side bar
+includes toolbar with next and back button
+
+### Popup
+Allows user to perform an interim action without leaving the context of the originl tasks
+contains a single screen with the Return to <previous location> link
+returns the user to the previous location after the popup is closed.
+
+### Worksheet
+rendered in the workspace frame
+conatins a single screen
+
+### Forward
+Contains logic to execute before navigating to other locations
+does not have screens
+
+### Exit Point
+Points to a URL outside of the Guidewire application
+does not contain a screen widget
+
+
+
