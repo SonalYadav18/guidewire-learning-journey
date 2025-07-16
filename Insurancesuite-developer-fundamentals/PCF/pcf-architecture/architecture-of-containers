@@ -1,0 +1,26 @@
+## Primary Containers
+Detail View Panel
+A series of data fields laid out in one or more columns
+
+List Panel View
+A list of rray objects, or any other data that can be laid out in tabular format
+
+Input set
+set of atomic widgets organized in logical groups , must be embedded into detail view panel and hence cannot be directly referenced by secondary containers.
+
+## Secondary containers
+Card View:
+collection of cards
+each card contains detail view or list view
+
+List Detail Panel:
+Top view panel- List view
+Bottom view panel - details about the selected list item
+
+## Container Widget hierarchy - checkout screenshot 
+A List view can contain atomic widget but not Detail view
+Atomic widgets can be directly contained only by primary containers
+detail view and list view can be contained by screen and secondary containers
+Detail view can contain list view
+
+
